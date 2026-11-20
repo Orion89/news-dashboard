@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-11-20T21:32:50.941120+00:00",
+  "countries": {
+    "chile": {
+      "modules": {
+        "raw_extraction": {
+          "status": "success",
+          "records_processed": 5603,
+          "completed_at": "2026-11-20T21:32:50.838590+00:00",
+          "metadata": {
+            "days": 7,
+            "anchor_date": "2026-11-19 00:05:00",
+            "cache_file": "chile_7d.parquet",
+            "columns": [
+              "id",
+              "media_name",
+              "url",
+              "date",
+              "author",
+              "body",
+              "body_hash"
+            ]
+          }
+        }
+      },
+      "last_extraction": null
+    },
+    "test_country": {
+      "modules": {
+        "test_module": {
+          "status": "success",
+          "records_processed": 42,
+          "completed_at": "2026-11-20T21:32:50.941120+00:00",
+          "metadata": {
+            "note": "unit_test"
+          }
+        }
+      },
+      "last_extraction": null
+    }
+  },
+  "history": [
+    {
+      "timestamp": "2026-11-20T21:32:50.838590+00:00",
+      "country": "chile",
+      "module": "raw_extraction",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T21:32:50.941120+00:00",
+      "country": "test_country",
+      "module": "test_module",
+      "status": "success",
+      "records_processed": 42
+    }
+  ]
+}
