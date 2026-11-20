@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-11-20T21:32:50.941120+00:00",
+  "last_updated": "2026-11-20T22:47:05.952157+00:00",
   "countries": {
     "chile": {
       "modules": {
@@ -22,6 +22,59 @@
               "body_hash"
             ]
           }
+        },
+        "pulse": {
+          "status": "success",
+          "records_processed": 5603,
+          "completed_at": "2026-11-20T22:46:58.912068+00:00",
+          "metadata": {
+            "recent_24h_volume": 890,
+            "delta_24h_pct": -23.34,
+            "syndication_rate_pct": 5.43,
+            "peak_hours_detected": 6
+          }
+        },
+        "quality": {
+          "status": "success",
+          "records_processed": 5603,
+          "completed_at": "2026-11-20T22:46:58.986125+00:00",
+          "metadata": {
+            "total_sources_evaluated": 725,
+            "sources_green": 185,
+            "sources_yellow": 306,
+            "sources_red": 234,
+            "health_score_pct": 25.5
+          }
+        },
+        "authorship": {
+          "status": "success",
+          "records_processed": 5603,
+          "completed_at": "2026-11-20T22:46:41.530685+00:00",
+          "metadata": {
+            "signed_pct": 58.52,
+            "female_ratio_pct": 29.68,
+            "top_media_evaluated_readability": 15,
+            "top_media_evaluated_pos": 15
+          }
+        },
+        "geopolitics": {
+          "status": "success",
+          "records_processed": 100,
+          "completed_at": "2026-11-20T22:46:47.372108+00:00",
+          "metadata": {
+            "protagonists_count": 60,
+            "locations_mapped": 9
+          }
+        },
+        "tone": {
+          "status": "success",
+          "records_processed": 100,
+          "completed_at": "2026-11-20T22:47:05.952157+00:00",
+          "metadata": {
+            "emotions_processed": 100,
+            "media_ranked_sensationalism": 0,
+            "emerging_ngrams_count": 22
+          }
         }
       },
       "last_extraction": null
@@ -31,7 +84,7 @@
         "test_module": {
           "status": "success",
           "records_processed": 42,
-          "completed_at": "2026-11-20T21:32:50.941120+00:00",
+          "completed_at": "2026-11-20T22:46:58.991186+00:00",
           "metadata": {
             "note": "unit_test"
           }
@@ -54,6 +107,97 @@
       "module": "test_module",
       "status": "success",
       "records_processed": 42
+    },
+    {
+      "timestamp": "2026-11-20T21:39:02.728635+00:00",
+      "country": "chile",
+      "module": "pulse",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T21:39:02.812211+00:00",
+      "country": "chile",
+      "module": "quality",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T21:39:02.817884+00:00",
+      "country": "test_country",
+      "module": "test_module",
+      "status": "success",
+      "records_processed": 42
+    },
+    {
+      "timestamp": "2026-11-20T22:10:26.515276+00:00",
+      "country": "chile",
+      "module": "authorship",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T22:10:40.036422+00:00",
+      "country": "chile",
+      "module": "pulse",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T22:10:40.113752+00:00",
+      "country": "chile",
+      "module": "quality",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T22:10:40.124575+00:00",
+      "country": "test_country",
+      "module": "test_module",
+      "status": "success",
+      "records_processed": 42
+    },
+    {
+      "timestamp": "2026-11-20T22:46:41.530685+00:00",
+      "country": "chile",
+      "module": "authorship",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T22:46:47.372108+00:00",
+      "country": "chile",
+      "module": "geopolitics",
+      "status": "success",
+      "records_processed": 100
+    },
+    {
+      "timestamp": "2026-11-20T22:46:58.912068+00:00",
+      "country": "chile",
+      "module": "pulse",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T22:46:58.986125+00:00",
+      "country": "chile",
+      "module": "quality",
+      "status": "success",
+      "records_processed": 5603
+    },
+    {
+      "timestamp": "2026-11-20T22:46:58.991186+00:00",
+      "country": "test_country",
+      "module": "test_module",
+      "status": "success",
+      "records_processed": 42
+    },
+    {
+      "timestamp": "2026-11-20T22:47:05.952157+00:00",
+      "country": "chile",
+      "module": "tone",
+      "status": "success",
+      "records_processed": 100
     }
   ]
 }

@@ -4,6 +4,10 @@ Configuración central, rutas de directorios y parámetros del pipeline.
 from __future__ import annotations
 
 import os
+
+# Prevenir colisión de OpenMP runtime en entornos Windows con PyTorch + MKL
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 from pathlib import Path
 from dotenv import load_dotenv
 

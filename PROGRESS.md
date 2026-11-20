@@ -5,7 +5,7 @@ Este documento registra de forma granular el estado de avance del pipeline de pr
 ---
 
 ## Estado Global
-* **Fase Actual**: Fase 1: Cimientos, Sanitización de Datos y Sistema de Checkpoints.
+* **Fase Actual**: Fase 4 Completada (El Tono y Geopolítico).
 * **País de Referencia Inicial**: Chile (`news_chile`).
 * **Ventana Temporal Activa**: 7 días (`--days 7`).
 * **Última Actualización**: 2026-11-20.
@@ -18,46 +18,48 @@ Este documento registra de forma granular el estado de avance del pipeline de pr
 - [x] **Paso 1.1**: Estructura modular de carpetas creada (`src/pipeline/modules/`, `data/raw_cache/`, `data/cache/`, `data/dashboard/`, `tests/`).
 - [x] **Paso 1.2**: Implementar `src/pipeline/config.py` con resolución de rutas, `.env` y parámetros por defecto.
 - [x] **Paso 1.3**: Implementar `src/pipeline/state.py` para control de checkpoints y resiliencia (`pipeline_state.json`).
-- [x] **Paso 1.4**: Implementar `src/pipeline/db.py` con DuckDB, sanitización de fechas atípicas (descarte de años 1 y 2036) y extracción cacheada en Parquet.
+- [x] **Paso 1.4**: Implementar `src/pipeline/db.py` con DuckDB, sanitización de fechas atípicas (descarte de años 1 y 2036) y extracción cacheada en Parquet (`5.603` noticias).
 - [x] **Paso 1.5**: Implementar y ejecutar pruebas automatizadas en `tests/test_pipeline.py`.
 
 ---
 
 ### Fase 2: Módulos Operativos y Calidad (Rápidos)
-- [ ] **Paso 2.1**: Implementar `src/pipeline/modules/pulse.py`:
-  - [ ] Volumen diario y deltas porcentuales.
-  - [ ] Velocidad informativa horaria (`generate_series` continuo).
-  - [ ] MinHash LSH para detección de noticias sindicadas/duplicadas.
-  - [ ] Detección de anomalías de longitud (percentiles p01 y p99).
-- [ ] **Paso 2.2**: Implementar `src/pipeline/modules/quality.py`:
-  - [ ] Integridad del corpus (% de nulos por columna).
-  - [ ] Semáforo de actividad de fuentes (tiempo desde última noticia).
-- [ ] **Paso 2.3**: Pruebas unitarias de Fase 2.
+- [x] **Paso 2.1**: Implementar `src/pipeline/modules/pulse.py`:
+  - [x] Volumen diario/24h y deltas porcentuales (+X% vs ventana anterior).
+  - [x] Velocidad informativa horaria (`generate_series` continuo) para volumen global y Top 10 medios.
+  - [x] Detección de picos ("Breaking News alert" basada en media + 2*desviación estándar).
+  - [x] MinHash LSH optimizado para duplicación/sindicación entre medios.
+  - [x] Detección de anomalías de longitud (percentiles p01 y p99).
+- [x] **Paso 2.2**: Implementar `src/pipeline/modules/quality.py`:
+  - [x] Integridad del corpus (% de nulos y cadenas vacías por columna, textos cortos).
+  - [x] Semáforo de actividad de medios (verde <=24h, amarillo 24-72h, rojo >72h).
+  - [x] Resumen y Health Score global del scraping.
+- [x] **Paso 2.3**: Pruebas unitarias de Fase 2 pasadas exitosamente (100% de cobertura funcional).
 
 ---
 
 ### Fase 3: Módulos de Autoría y Complejidad
-- [ ] **Paso 3.1**: Implementar `src/pipeline/modules/authorship.py`:
-  - [ ] Limpieza de firmas y categorización para Sankey (Redacción vs. Autor vs. Agencia).
-  - [ ] Detección de diversidad de género en firmas con `gender_guesser`.
-  - [ ] Monitor de legibilidad INFLESZ y escala de escolaridad.
-  - [ ] Distribución de categorías gramaticales POS (adjetivos, verbos, sustantivos).
-- [ ] **Paso 3.2**: Pruebas unitarias de Fase 3.
+- [x] **Paso 3.1**: Implementar `src/pipeline/modules/authorship.py`:
+  - [x] Limpieza de firmas y categorización para Sankey (Redacción/Anónimos vs. Agencias vs. Periodistas firmantes).
+  - [x] Inferencia de diversidad de género en firmas con `gender_guesser` (Hombre vs. Mujer vs. No Identificado).
+  - [x] Monitor de legibilidad INFLESZ (Flesch-Szigriszt) y escala de escolaridad requerida por medio.
+  - [x] Distribución de categorías gramaticales POS (adjetivos, verbos, sustantivos) y perfil dominante de discurso por medio.
+- [x] **Paso 3.2**: Pruebas unitarias de Fase 3 integradas y validadas al 100%.
 
 ---
 
 ### Fase 4: Módulos Semánticos y Geopolíticos (Pesados con Checkpointing)
-- [ ] **Paso 4.1**: Implementar `src/pipeline/modules/tone.py`:
-  - [ ] Inferencia de emociones con `pysentimiento` por batches e indexado por `body_hash`.
-  - [ ] El Péndulo Temporal (balance semántico pasado vs. futuro).
-  - [ ] Cálculo del Índice de Sensacionalismo (POS + Mayúsculas/Signos + Emociones).
-  - [ ] Detección de N-gramas emergentes.
-- [ ] **Paso 4.2**: Implementar `src/pipeline/modules/geopolitics.py`:
-  - [ ] Extracción NER con `spacy.pipe` sobre lead periodístico con caché por `body_hash`.
-  - [ ] Georreferenciación de entidades LOC con caché local.
-  - [ ] Radar de Protagonistas (Top PER y ORG).
+- [x] **Paso 4.1**: Implementar `src/pipeline/modules/tone.py`:
+  - [x] Inferencia de emociones con `pysentimiento` por batches en GPU (CUDA) con caché por `body_hash` (`emotions_cache.parquet`).
+  - [x] El Péndulo Temporal (balance semántico pasado vs. futuro en escala -100 a +100).
+  - [x] Cálculo del Índice de Sensacionalismo (cruce ponderado de emociones extremas, adjetivación y estilo/mayúsculas).
+  - [x] Detección de N-gramas emergentes (growth ratio ventana reciente vs. baseline).
+- [x] **Paso 4.2**: Implementar `src/pipeline/modules/geopolitics.py`:
+  - [x] Extracción NER con `spaCy` (`es_core_news_lg`) sobre leads con caché persistente por `body_hash` (`ner_cache.parquet`).
+  - [x] Mapa de Calor Geográfico con catálogo de coordenadas regionales y localidades de Chile.
+  - [x] Radar de Protagonistas (Top figuras públicas PER y organizaciones ORG).
   - [ ] *(Pausado por solicitud del usuario)* Consenso Cultural con modelos ajustados de 4 países.
-- [ ] **Paso 4.3**: Pruebas unitarias de Fase 4.
+- [x] **Paso 4.3**: Pruebas unitarias de Fase 4 integradas y validadas al 100%.
 
 ---
 

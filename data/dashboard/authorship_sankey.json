@@ -1,0 +1,87 @@
+{
+  "country": "chile",
+  "nodes": [
+    {
+      "id": 0,
+      "label": "Total Noticias",
+      "color": "#1f77b4"
+    },
+    {
+      "id": 1,
+      "label": "Agencias",
+      "color": "#ff7f0e"
+    },
+    {
+      "id": 2,
+      "label": "Redacción / Anónimo",
+      "color": "#7f7f7f"
+    },
+    {
+      "id": 3,
+      "label": "Periodista Firmante",
+      "color": "#2ca02c"
+    },
+    {
+      "id": 4,
+      "label": "Hombre",
+      "color": "#3366cc"
+    },
+    {
+      "id": 5,
+      "label": "Mujer",
+      "color": "#dc3912"
+    },
+    {
+      "id": 6,
+      "label": "No Identificado",
+      "color": "#990099"
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "target": 1,
+      "value": 92,
+      "label": "Cables de agencia"
+    },
+    {
+      "source": 0,
+      "target": 2,
+      "value": 2232,
+      "label": "Sin firma explícita"
+    },
+    {
+      "source": 0,
+      "target": 3,
+      "value": 3279,
+      "label": "Artículos firmados"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "value": 1566,
+      "label": "Firmados por hombres"
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "value": 661,
+      "label": "Firmados por mujeres"
+    },
+    {
+      "source": 3,
+      "target": 6,
+      "value": 1052,
+      "label": "Firma no identificable"
+    }
+  ],
+  "counts": {
+    "total": 5603,
+    "agencia": 92,
+    "anonimo": 2232,
+    "firmado": 3279,
+    "hombre": 1566,
+    "mujer": 661,
+    "no_identificado": 1052
+  }
+}
