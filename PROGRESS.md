@@ -5,10 +5,10 @@ Este documento registra de forma granular el estado de avance del pipeline de pr
 ---
 
 ## Estado Global
-* **Fase Actual**: Fase 4 Completada (El Tono y Geopolítico).
+* **Fase Actual**: 100% Completado (Pipeline de Datos + Dashboard Web en Plotly Dash listo para Railway).
 * **País de Referencia Inicial**: Chile (`news_chile`).
 * **Ventana Temporal Activa**: 7 días (`--days 7`).
-* **Última Actualización**: 2026-11-20.
+* **Última Actualización**: 2026-11-22.
 
 ---
 
@@ -64,6 +64,73 @@ Este documento registra de forma granular el estado de avance del pipeline de pr
 ---
 
 ### Fase 5: Consolidación, Exportación para Dash y CLI
-- [ ] **Paso 5.1**: Implementar `src/pipeline/export.py` para compilar tablas en `data/dashboard/*.parquet` y `*.json`.
-- [ ] **Paso 5.2**: Implementar `src/pipeline/run.py` con soporte CLI completo (`--country`, `--days`, `--module`, `--force-refresh`).
-- [ ] **Paso 5.3**: Verificación integral y documentación de despliegue en Railway.
+- [x] **Paso 5.1**: Implementar `src/pipeline/export.py` para compilar tablas en `data/dashboard/*.parquet`, `*.json` y generar `data_manifest.json`.
+- [x] **Paso 5.2**: Implementar `src/pipeline/run.py` con soporte CLI completo (`--country`, `--days`, `--module`, `--force-refresh`, `--limit-nlp`).
+- [x] **Paso 5.3**: Verificación integral (11 pruebas automatizadas aprobadas al 100%) y preparación para el frontend en Plotly Dash y Railway.
+
+---
+
+### Fase 6: Cimientos y Fundamentos Visuales (Tokens, CSS, Loader, Componentes Base)
+- [x] **Paso 6.1**: Implementar `src/dashboard/config.py` con tokens Dark Slate (`#0B0F19`, `#1E293B`, `#334155`) y template Plotly `news_dark`.
+- [x] **Paso 6.2**: Implementar hoja de estilos central en `assets/styles.css` con grilla de 12 columnas, `tabular-nums`, estilos de tarjeta KPI y pestañas.
+- [x] **Paso 6.3**: Implementar proveedor de datos y caché en memoria en `src/dashboard/data_loader.py` para los 19 datasets.
+- [x] **Paso 6.4**: Implementar componentes base (`kpi_card.py`, `header.py`, `empty_state.py`).
+- [x] **Paso 6.5**: Pruebas unitarias de cimientos aprobadas al 100%.
+
+---
+
+### Fase 7: Vistas Operacionales ("El Pulso" y "Calidad de Datos")
+- [x] **Paso 7.1**: Implementar `src/dashboard/views/pulse_view.py`:
+  - [x] Banner de 4 BANs (Volumen 24h con delta %, Promedio Diario, Pico récord horario, Tasa de sindicación).
+  - [x] Curva continua de velocidad horaria con área y umbral de alerta Breaking News (μ + 2σ).
+  - [x] Gráfico horizontal de medios con mayor tasa de sindicación (cables duplicados con MinHash LSH).
+  - [x] Monitor de anomalías de extensión (p01 micro-notas y p99 manifiestos).
+- [x] **Paso 7.2**: Implementar `src/dashboard/views/quality_view.py`:
+  - [x] Tarjetas de salud del scraper (fuentes verdes ≤12h, amarillas 12-48h, rojas >48h y score global).
+  - [x] Gráfico de barras horizontales de integridad del corpus (% de completitud por columna).
+  - [x] Directorio interactivo de fuentes con DataTable (paginación, ordenamiento y filtrado nativo).
+- [x] **Paso 7.3**: Pruebas unitarias operacionales validadas al 100%.
+
+---
+
+### Fase 8: Vistas de Contenido y Análisis Semántico ("El Tono", "Autoría", "Geopolítica")
+- [x] **Paso 8.1**: Implementar `src/dashboard/views/tone_view.py`:
+  - [x] Multilínea de evolución temporal de emociones (RoBERTuito fine-tuned).
+  - [x] Ranking de sensacionalismo editorial por medio con desglose de componentes.
+  - [x] Indicador tipo velocímetro del péndulo temporal (-100 a +100 pasado vs futuro).
+  - [x] Píldoras de términos y n-gramas emergentes (Trending Topics).
+- [x] **Paso 8.2**: Implementar `src/dashboard/views/authorship_view.py`:
+  - [x] Diagrama interactivo Sankey de trazabilidad (Corpus → Agencias/Anónimos/Firmados → Género).
+  - [x] Scorecard de diversidad de género en periodismo de opinión e investigación.
+  - [x] Índice de legibilidad INFLESZ por medio con umbral de estándar prensa (55 pts).
+  - [x] Barras apiladas de perfil gramatical POS (sustantivos, verbos, adjetivos).
+- [x] **Paso 8.3**: Implementar `src/dashboard/views/geopolitics_view.py`:
+  - [x] Mapa de burbujas de Chile con `scatter_geo` centrado en territorio nacional.
+  - [x] Radar de protagonistas: Top 10 figuras públicas (PER) y Top 10 organizaciones (ORG).
+- [x] **Paso 8.4**: Pruebas unitarias semánticas validadas al 100%.
+
+---
+
+### Fase 9: Callbacks, Ensamblado de `app.py` y Empaquetado para Railway
+- [x] **Paso 9.1**: Implementar `src/dashboard/callbacks.py` con cambio dinámico de pestañas y filtro global de medios.
+- [x] **Paso 9.2**: Implementar `app.py` como punto de entrada central, exportando `server = app.server`.
+- [x] **Paso 9.3**: Crear `requirements-web.txt` y `Procfile` para despliegue liviano en Railway (< 150 MB RAM, sin dependencias pesadas).
+- [x] **Paso 9.4**: Verificación con 10 pruebas unitarias automatizadas (`tests/test_dashboard.py`) y test client WSGI (HTTP 200).
+
+---
+
+## Guía de Uso del Orquestador CLI
+
+```powershell
+# 1. Ejecutar todo el pipeline completo para Chile (7 días):
+$env:PYTHONPATH="."; C:\Users\leomo\anaconda3\envs\data\python.exe -m src.pipeline.run --country chile --days 7 --module all
+
+# 2. Ejecutar un módulo individual (ej. El Pulso):
+$env:PYTHONPATH="."; C:\Users\leomo\anaconda3\envs\data\python.exe -m src.pipeline.run --country chile --module pulse
+
+# 3. Forzar re-extracción de noticias desde PostgreSQL ignorando caché:
+$env:PYTHONPATH="."; C:\Users\leomo\anaconda3\envs\data\python.exe -m src.pipeline.run --country chile --force-refresh
+
+# 4. Validar e imprimir el catálogo y manifiesto de datasets del dashboard:
+$env:PYTHONPATH="."; C:\Users\leomo\anaconda3\envs\data\python.exe -m src.pipeline.run --module export
+```

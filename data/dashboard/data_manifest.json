@@ -1,0 +1,330 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-11-22T18:06:13.803202+00:00",
+  "country": "chile",
+  "window_days": 7,
+  "total_datasets": 19,
+  "total_size_bytes": 261071,
+  "total_size_kb": 254.95,
+  "status": "complete",
+  "datasets": {
+    "pulse_kpis.parquet": {
+      "module": "pulse",
+      "description": "KPIs operativos del Top Banner (volumen 24h, deltas, promedio diario, sindicación)",
+      "format": "parquet",
+      "exists": true,
+      "rows": 1,
+      "size_bytes": 8388,
+      "size_kb": 8.19,
+      "columns": [
+        "recent_24h_volume",
+        "prev_24h_volume",
+        "delta_24h_pct",
+        "total_window_volume",
+        "daily_avg_volume",
+        "anchor_date",
+        "syndication_rate_pct",
+        "syndicated_articles_count",
+        "short_anomalies_count",
+        "long_anomalies_count",
+        "p01_char_threshold",
+        "p99_char_threshold"
+      ]
+    },
+    "pulse_hourly_velocity.parquet": {
+      "module": "pulse",
+      "description": "Serie continua por hora del volumen global con umbrales de alerta temprana (Breaking News)",
+      "format": "parquet",
+      "exists": true,
+      "rows": 169,
+      "size_bytes": 4686,
+      "size_kb": 4.58,
+      "columns": [
+        "hour_bucket",
+        "news_count",
+        "is_peak",
+        "peak_threshold"
+      ]
+    },
+    "pulse_hourly_top_media.parquet": {
+      "module": "pulse",
+      "description": "Serie continua hora por hora para los Top medios de comunicación",
+      "format": "parquet",
+      "exists": true,
+      "rows": 1690,
+      "size_bytes": 4706,
+      "size_kb": 4.6,
+      "columns": [
+        "hour_bucket",
+        "media_name",
+        "news_count"
+      ]
+    },
+    "pulse_syndication_by_media.parquet": {
+      "module": "pulse",
+      "description": "Tasa de noticias duplicadas o cables sindicados agregados por medio",
+      "format": "parquet",
+      "exists": true,
+      "rows": 725,
+      "size_bytes": 14575,
+      "size_kb": 14.23,
+      "columns": [
+        "media_name",
+        "total_articles",
+        "syndicated_articles",
+        "syndication_rate_pct"
+      ]
+    },
+    "pulse_length_anomalies.parquet": {
+      "module": "pulse",
+      "description": "Noticias en los percentiles extremos 1% (cables ultracortos) y 99% (reportajes extensos)",
+      "format": "parquet",
+      "exists": true,
+      "rows": 114,
+      "size_bytes": 16944,
+      "size_kb": 16.55,
+      "columns": [
+        "id",
+        "media_name",
+        "date",
+        "url",
+        "char_length",
+        "anomaly_type"
+      ]
+    },
+    "quality_corpus_integrity.parquet": {
+      "module": "quality",
+      "description": "Porcentaje de nulos y cadenas vacías por columna del corpus",
+      "format": "parquet",
+      "exists": true,
+      "rows": 8,
+      "size_bytes": 3672,
+      "size_kb": 3.59,
+      "columns": [
+        "column_name",
+        "null_count",
+        "null_pct",
+        "empty_string_count",
+        "total_rows"
+      ]
+    },
+    "quality_sources_health.parquet": {
+      "module": "quality",
+      "description": "Semáforo operativo de fuentes (verde, amarillo, rojo) según antigüedad de publicación",
+      "format": "parquet",
+      "exists": true,
+      "rows": 725,
+      "size_bytes": 25659,
+      "size_kb": 25.06,
+      "columns": [
+        "media_name",
+        "total_articles",
+        "first_seen",
+        "last_seen",
+        "hours_since_last_seen",
+        "status"
+      ]
+    },
+    "quality_summary.parquet": {
+      "module": "quality",
+      "description": "Health Score y métricas agregadas de salud de extracción",
+      "format": "parquet",
+      "exists": true,
+      "rows": 1,
+      "size_bytes": 3776,
+      "size_kb": 3.69,
+      "columns": [
+        "total_sources_evaluated",
+        "sources_green",
+        "sources_yellow",
+        "sources_red",
+        "health_score_pct"
+      ]
+    },
+    "authorship_sankey.json": {
+      "module": "authorship",
+      "description": "Estructura de nodos y enlaces para el diagrama de Sankey de autoría y género",
+      "format": "json",
+      "exists": true,
+      "rows": 1,
+      "size_bytes": 1556,
+      "size_kb": 1.52,
+      "columns": [
+        "country",
+        "nodes",
+        "links",
+        "counts"
+      ]
+    },
+    "authorship_gender_kpis.parquet": {
+      "module": "authorship",
+      "description": "Cuota de participación de mujeres vs. hombres y tasa de artículos firmados",
+      "format": "parquet",
+      "exists": true,
+      "rows": 1,
+      "size_bytes": 4864,
+      "size_kb": 4.75,
+      "columns": [
+        "total_news",
+        "total_signed",
+        "male_count",
+        "female_count",
+        "unidentified_count",
+        "female_ratio_pct",
+        "signed_pct"
+      ]
+    },
+    "authorship_media_stats.parquet": {
+      "module": "authorship",
+      "description": "Distribución porcentual de autoría (anónimo, agencia, firmado, género) por medio",
+      "format": "parquet",
+      "exists": true,
+      "rows": 25,
+      "size_bytes": 5220,
+      "size_kb": 5.1,
+      "columns": [
+        "media_name",
+        "total_articles",
+        "anon_pct",
+        "agency_pct",
+        "signed_pct",
+        "female_pct_of_signed"
+      ]
+    },
+    "authorship_readability.parquet": {
+      "module": "authorship",
+      "description": "Índice de legibilidad INFLESZ y escolaridad requerida por medio de comunicación",
+      "format": "parquet",
+      "exists": true,
+      "rows": 15,
+      "size_bytes": 7835,
+      "size_kb": 7.65,
+      "columns": [
+        "media_name",
+        "articles_evaluated",
+        "mean_inflesz",
+        "mean_schooling_years",
+        "readability_category",
+        "sample_text"
+      ]
+    },
+    "authorship_pos_distribution.parquet": {
+      "module": "authorship",
+      "description": "Distribución de categorías gramaticales POS (adjetivos, verbos, sustantivos) por medio",
+      "format": "parquet",
+      "exists": true,
+      "rows": 15,
+      "size_bytes": 7565,
+      "size_kb": 7.39,
+      "columns": [
+        "media_name",
+        "articles_analyzed",
+        "adj_pct",
+        "noun_pct",
+        "verb_pct",
+        "discourse_profile",
+        "top_adjectives",
+        "top_nouns",
+        "top_verbs"
+      ]
+    },
+    "tone_emotions_timeseries.parquet": {
+      "module": "tone",
+      "description": "Evolución temporal suavizada de emociones dominantes (PySentimiento) por medio",
+      "format": "parquet",
+      "exists": true,
+      "rows": 10800,
+      "size_bytes": 106998,
+      "size_kb": 104.49,
+      "columns": [
+        "date_day",
+        "media_name",
+        "emotion",
+        "intensity"
+      ]
+    },
+    "tone_pendulum_daily.parquet": {
+      "module": "tone",
+      "description": "Balance semántico diario de orientación al Pasado vs. Futuro (-100 a +100)",
+      "format": "parquet",
+      "exists": true,
+      "rows": 1800,
+      "size_bytes": 25289,
+      "size_kb": 24.7,
+      "columns": [
+        "date_day",
+        "media_name",
+        "total_past",
+        "total_future",
+        "articles_count",
+        "daily_pendulum_score"
+      ]
+    },
+    "tone_sensationalism_ranking.parquet": {
+      "module": "tone",
+      "description": "Ranking de medios por Índice de Sensacionalismo (cruce de emociones, POS y estilo)",
+      "format": "parquet",
+      "exists": true,
+      "rows": 20,
+      "size_bytes": 6079,
+      "size_kb": 5.94,
+      "columns": [
+        "media_name",
+        "articles_count",
+        "avg_sensationalism",
+        "avg_emotion",
+        "avg_adjectives",
+        "avg_style",
+        "rank"
+      ]
+    },
+    "tone_emerging_ngrams.parquet": {
+      "module": "tone",
+      "description": "Top de bigramas y trigramas emergentes (Trending Topics) por tasa de crecimiento",
+      "format": "parquet",
+      "exists": true,
+      "rows": 30,
+      "size_bytes": 4416,
+      "size_kb": 4.31,
+      "columns": [
+        "ngram",
+        "ngram_type",
+        "recent_count",
+        "baseline_count",
+        "growth_ratio"
+      ]
+    },
+    "geopolitics_protagonists.parquet": {
+      "module": "geopolitics",
+      "description": "Radar de personas (PER) y organizaciones (ORG) más nombradas en la ventana de tiempo",
+      "format": "parquet",
+      "exists": true,
+      "rows": 60,
+      "size_bytes": 4194,
+      "size_kb": 4.1,
+      "columns": [
+        "entity",
+        "type",
+        "total_mentions",
+        "dominant_category"
+      ]
+    },
+    "geopolitics_locations.parquet": {
+      "module": "geopolitics",
+      "description": "Entidades de ubicación (LOC) geolocalizadas con coordenadas y frecuencia de mención",
+      "format": "parquet",
+      "exists": true,
+      "rows": 14,
+      "size_bytes": 4649,
+      "size_kb": 4.54,
+      "columns": [
+        "city",
+        "region",
+        "latitude",
+        "longitude",
+        "country",
+        "total_mentions"
+      ]
+    }
+  }
+}

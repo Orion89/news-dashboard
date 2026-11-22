@@ -239,8 +239,10 @@ def calculate_sensationalism_index(
         .reset_index()
     )
 
-    # Filtrar medios con mínimo 10 artículos para evitar sesgo de muestras diminutas
-    media_ranking = media_ranking[media_ranking["articles_count"] >= 10].copy()
+    # Filtrar medios para evitar sesgo de muestras diminutas (mínimo 5 artículos si el dataset lo permite)
+    max_count = int(media_ranking["articles_count"].max()) if not media_ranking.empty else 1
+    min_threshold = min(5, max(1, max_count // 3))
+    media_ranking = media_ranking[media_ranking["articles_count"] >= min_threshold].copy()
     media_ranking["avg_sensationalism"] = media_ranking["avg_sensationalism"].round(2)
     media_ranking = media_ranking.sort_values("avg_sensationalism", ascending=False).head(top_n_media).reset_index(drop=True)
     media_ranking["rank"] = media_ranking.index + 1

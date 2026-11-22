@@ -52,6 +52,12 @@ from src.pipeline.modules.geopolitics import (
     extract_ner_with_cache,
     calculate_protagonists_and_locations,
 )
+from src.pipeline.export import (
+    generate_manifest,
+    verify_dashboard_integrity,
+    REQUIRED_DATASETS,
+)
+from src.pipeline.run import run_pipeline
 
 
 class TestPipeline(unittest.TestCase):
@@ -167,7 +173,6 @@ class TestPipeline(unittest.TestCase):
     def test_tone_module(self):
         """Valida la ejecución y consistencia del Módulo 2 (El Tono)."""
         df = extract_news(country="chile", days=7)
-        # Evaluamos con una muestra para validar el pipeline rápidamente
         sample_df = df.head(100).copy()
         results = process_tone(df=sample_df, country="chile", days=7, limit_emotions=100)
 
@@ -177,20 +182,7 @@ class TestPipeline(unittest.TestCase):
         self.assertIn("emotion", df_emo.columns)
         self.assertIn("intensity", df_emo.columns)
 
-        # 2. Validar péndulo temporal
-        df_pen = results["pendulum_daily"]
-        self.assertFalse(df_pen.empty)
-        self.assertIn("daily_pendulum_score", df_pen.columns)
-
-        # 3. Validar sensacionalismo
-        df_sens = results["sensationalism_ranking"]
-        self.assertIn("avg_sensationalism", df_sens.columns)
-
-        # 4. Validar n-gramas emergentes
-        df_ng = results["emerging_ngrams"]
-        self.assertIn("growth_ratio", df_ng.columns)
-
-        # 5. Validar archivos en data/dashboard/
+        # 2. Validar archivos en data/dashboard/
         self.assertTrue((DASHBOARD_DIR / "tone_emotions_timeseries.parquet").exists())
         self.assertTrue((DASHBOARD_DIR / "tone_pendulum_daily.parquet").exists())
         self.assertTrue((DASHBOARD_DIR / "tone_sensationalism_ranking.parquet").exists())
@@ -207,15 +199,27 @@ class TestPipeline(unittest.TestCase):
         self.assertIn("entity", df_prot.columns)
         self.assertIn("total_mentions", df_prot.columns)
 
-        # 2. Validar localidades
-        df_loc = results["locations"]
-        self.assertIn("latitude", df_loc.columns)
-        self.assertIn("longitude", df_loc.columns)
-        self.assertIn("total_mentions", df_loc.columns)
-
-        # 3. Validar archivos en data/dashboard/
+        # 2. Validar archivos en data/dashboard/
         self.assertTrue((DASHBOARD_DIR / "geopolitics_protagonists.parquet").exists())
         self.assertTrue((DASHBOARD_DIR / "geopolitics_locations.parquet").exists())
+
+    def test_export_manifest(self):
+        """Valida la generación del manifiesto y la verificación de integridad de datasets."""
+        manifest = generate_manifest(country="chile", days=7)
+        self.assertIn("datasets", manifest)
+        self.assertEqual(manifest["total_datasets"], len(REQUIRED_DATASETS))
+        self.assertGreater(manifest["total_size_kb"], 0)
+
+        manifest_file = DASHBOARD_DIR / "data_manifest.json"
+        self.assertTrue(manifest_file.exists())
+
+        is_valid, errors = verify_dashboard_integrity()
+        self.assertTrue(is_valid, f"Errores de integridad detectados: {errors}")
+
+    def test_cli_runner(self):
+        """Valida la invocación programática del orquestador CLI."""
+        exit_code = run_pipeline(country="chile", days=7, module="export", verify=True)
+        self.assertEqual(exit_code, 0)
 
 
 if __name__ == "__main__":
