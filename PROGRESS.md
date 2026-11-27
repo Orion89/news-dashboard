@@ -114,8 +114,14 @@ Este documento registra de forma granular el estado de avance del pipeline de pr
 ### Fase 9: Callbacks, Ensamblado de `app.py` y Empaquetado para Railway
 - [x] **Paso 9.1**: Implementar `src/dashboard/callbacks.py` con cambio dinámico de pestañas y filtro global de medios.
 - [x] **Paso 9.2**: Implementar `app.py` como punto de entrada central, exportando `server = app.server`.
-- [x] **Paso 9.3**: Crear `requirements-web.txt` y `Procfile` para despliegue liviano en Railway (< 150 MB RAM, sin dependencias pesadas).
+- [x] **Paso 9.3**: Crear `requirements-web.txt`, `requirements.txt` y `Procfile` para despliegue liviano en Railway (< 150 MB RAM, sin dependencias pesadas).
 - [x] **Paso 9.4**: Verificación con 10 pruebas unitarias automatizadas (`tests/test_dashboard.py`) y test client WSGI (HTTP 200).
+- [x] **Paso 9.5**: Despliegue en producción en Railway mediante skill `use-railway`:
+  - Proyecto creado: `news-dashboard` (`8669d106-03be-4cf6-bec5-eb71eeaddf23`).
+  - Servicio aprovisionado: `news-dashboard` (`8f23cc08-c085-468b-a1ba-7c2565f86485`).
+  - Repositorio conectado: `Orion89/news-dashboard` (rama `main`).
+  - Dominio público activo: [https://news-dashboard-production-f95ca771.up.railway.app](https://news-dashboard-production-f95ca771.up.railway.app).
+  - Estado: `SUCCESS` (HTTP 200 OK, Gunicorn en puerto 8080).
 
 ---
 
