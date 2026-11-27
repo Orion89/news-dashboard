@@ -24,6 +24,7 @@ from src.dashboard.data_loader import (
 )
 from src.dashboard.components.kpi_card import create_kpi_card
 from src.dashboard.components.header import create_header
+from src.dashboard.components.footer import create_footer
 from src.dashboard.components.empty_state import create_empty_state
 from src.dashboard.views.pulse_view import (
     build_pulse_velocity_figure,
@@ -130,11 +131,14 @@ class TestDashboardBase(unittest.TestCase):
         self.assertIsInstance(card_negative, html.Div)
 
     def test_header_and_empty_state_components(self):
-        """Valida la construcción del header y del empty state."""
+        """Valida la construcción del header, footer y empty state."""
         manifest = load_manifest()
         media_list = get_available_media_list()
         header = create_header(manifest, media_list, current_media="ALL")
         self.assertIsInstance(header, html.Header)
+
+        footer = create_footer()
+        self.assertIsInstance(footer, html.Footer)
 
         empty_state = create_empty_state("Sin datos", "Intente cambiar el medio.")
         self.assertIsInstance(empty_state, html.Div)

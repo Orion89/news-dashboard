@@ -10,13 +10,18 @@ from dash import Dash, html, dcc
 from src.dashboard.config import ASSETS_DIR
 from src.dashboard.data_loader import load_manifest, get_available_media_list
 from src.dashboard.components.header import create_header
+from src.dashboard.components.footer import create_footer
 from src.dashboard.views.pulse_view import create_pulse_view
 from src.dashboard.callbacks import register_callbacks
+
+# Hojas de estilo externas (Iconos Bootstrap para redes sociales y repositorio)
+BOOTSTRAP_ICONS = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
 
 # 1. Inicialización de la aplicación Dash
 app = Dash(
     __name__,
     assets_folder=str(ASSETS_DIR),
+    external_stylesheets=[BOOTSTRAP_ICONS],
     title="NewsPulse | Monitoreo de Prensa & Inteligencia Semántica",
     update_title=None,
     suppress_callback_exceptions=True,
@@ -90,27 +95,8 @@ app.layout = html.Div(
             style={"maxWidth": "1440px", "margin": "0 auto", "padding": "0 24px 40px"},
             children=create_pulse_view("ALL"),
         ),
-        # Pie de página institucional y metadatos de auditoría
-        html.Footer(
-            style={
-                "borderTop": "1px solid #1E293B",
-                "padding": "24px",
-                "textAlign": "center",
-                "color": "#64748B",
-                "fontSize": "12px",
-                "backgroundColor": "#0B0F19",
-            },
-            children=[
-                html.P(
-                    "NewsPulse • Plataforma de Inteligencia Editorial y Monitoreo de Prensa Escrita",
-                    style={"margin": "0 0 6px 0", "fontWeight": "600", "color": "#94A3B8"},
-                ),
-                html.P(
-                    "Procesamiento analítico con DuckDB, spaCy NER y PySentimiento RoBERTuito. Interfaz construida en Plotly Dash.",
-                    style={"margin": "0"},
-                ),
-            ],
-        ),
+        # Pie de página institucional, autoría y metadatos
+        create_footer(),
     ],
 )
 

@@ -9,11 +9,15 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 from pathlib import Path
-from dotenv import load_dotenv
 
 # Localización de rutas raíz del proyecto
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-load_dotenv(PROJECT_ROOT / ".env")
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(PROJECT_ROOT / ".env")
+except ImportError:
+    pass
 
 # Base de datos
 POSTGRES_URI = os.getenv(
